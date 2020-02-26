@@ -1,0 +1,6 @@
+Notice that in dataA there is 4 tuples that add up to 4
+(-6, 2, 3, 5)
+(-2, 1, 2, 3)
+but none of them add up to 5.
+
+None of the files that have only even numbers can add up to an odd number.
