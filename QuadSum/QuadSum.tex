@@ -1,0 +1,56 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{dirtytalk}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+
+\title{Quadruplet Sum Algorithm Analysis}
+\author{Jake Imyak }
+\date{February 26th, 2020}
+
+\begin{document}
+
+\maketitle
+
+\section*{Run-time Analysis}
+
+\begin{algorithm}
+\caption{Quadruplet Sum}\label{euclid}
+\begin{algorithmic}[1]
+\Procedure{QuadSum}{A[], n, sum}
+\State $HashTable.init()$
+ \For{$i \gets 1$ to $n-1$}       
+     \For{$j \gets i+1$ to $n$}                    
+        \State {$value$ $\gets$ {sum - (A[i] + A[j])}}
+        \If {$HashTable.Member(value)$}
+            \For {$Pair\hspace{.1cm} p \in \mathcal HashTable.Member(value) $}
+                \State $x = Pair.x$
+                \State $y = Pair.y$
+                \If {x is not i or j and y is not i or j}
+                    \State Print x, y, i, j 
+                    \State
+                    \Return $true$
+                \EndIf
+            \EndFor
+        \EndIf
+        \State HashTable.Insert(A[i], A[j])
+    \EndFor
+\EndFor
+\State
+\Return $false$
+\EndProcedure
+
+
+\end{algorithmic}
+\end{algorithm}
+
+The solution based goes through the list of numbers twice making the \newline algorithm T(n) \in \Theta (n^2). 
+
+The sum is subtracted from pair of numbers from indexes i and j from the array A. This value is used to see if we already have a pair of the same value to get the target sum in the hash table. We then retrieve that value from the hash table and then make sure their are no duplicates between the numbers. If no duplicates occur we print the numbers i, j, x, and y and return true. If not, we insert the pair into the hash table and continue to iterate through. Once the list has been traversed and no quadruplet sum has been found we return false.
+\end{document} 
+
+\end{document}
