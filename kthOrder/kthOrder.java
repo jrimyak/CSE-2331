@@ -3,7 +3,10 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-
+/**
+ * kth order statistic project for CSE 2331
+ * @author Jake Imyak
+ */
 public class kthOrder {
 
     public static class TreeNode {
@@ -19,52 +22,61 @@ public class kthOrder {
 
     /**
      * 
-     * @param root
-     * @param key
-     * @return
+     * @param root the root of the tree
+     * @param data the value associated with the node to be inserted 
+     * @return the root of the tree with the inserted node
      */
-    public static TreeNode insert(TreeNode root, int key) {
-        TreeNode curr = root;
-        TreeNode parent = null;
-        //TreeNode in = new TreeNode(key);
+    public static TreeNode insert(TreeNode root, int data) {
+        //creating nodes 
+        TreeNode currentNode = root;
+        TreeNode parentNode = null;
        
+        //go through the tree to find parent node of the data inputted
+        while(currentNode != null) {
+            //update the parent to the current node
+            parentNode = currentNode;
 
-        while(curr != null) {
-            parent = curr;
-
-            if(key < curr.val) {
-                curr.count++;
-                curr = curr.left;
+            //if the data is less than the current node go left and update left count,
+            //else go to the right 
+            if(data < currentNode.val) {
+                currentNode.count++;
+                currentNode = currentNode.left;
             } else {
-                curr = curr.right;
+                currentNode = currentNode.right;
             }
         }
 
+        //creates and sets the root if the tree has no elements 
         if(root == null) {
-            return new TreeNode(key);
+            return new TreeNode(data);
         }
 
-        if( key < parent.val) {
-            parent.left = new TreeNode(key);
+        //makes a new node and gives it the correct parent node
+        if(data < parentNode.val) {
+            parentNode.left = new TreeNode(data);
         }
         else {
-            parent.right = new TreeNode(key);
+            parentNode.right = new TreeNode(data);
         }
         return root;
     }
 
     /**
      * 
-     * @param root
-     * @param k
-     * @return
+     * @param root the root of the tree
+     * @param k the kth order statistic we are trying to find 
+     * @return the value of the kth order statistic 
      */
     public static int kStatistic(TreeNode root, int k) {
+        //go through the tree 
         while(root != null) {
+            //the root is the kth order statistic 
             if(k == root.count + 1) {
                 return root.val;
+            //the kth order statistic is in the left subtree
             } else if(k <= root.count) {
                 root = root.left;
+            //the kth order statistic is in the right subtree 
             } else {
                 k = k - root.count -1;
                 root = root.right;
@@ -78,7 +90,7 @@ public class kthOrder {
         //uses scanner to read in the file
          Scanner scanner = null;
          Scanner scanner2 = null;
-         
+         //assigning scanners to the input files 
          try {
              scanner = new Scanner(file1);
            
@@ -93,7 +105,7 @@ public class kthOrder {
             System.out.println(e);
         }
         
-         //adds the contents of the data file to an arraylsit 
+         //adds the contents of the data file to an array list  
          ArrayList<Integer> data = new ArrayList<>();
          while (scanner.hasNext()) {
              if (scanner.hasNextInt()) {
@@ -103,7 +115,7 @@ public class kthOrder {
                  scanner.next();
              }
          }
-
+        //adds the positions to an array list 
          ArrayList<Integer> position = new ArrayList<>();
          while(scanner2.hasNext()) {
              if(scanner2.hasNextInt()) {
@@ -113,18 +125,18 @@ public class kthOrder {
                  scanner2.next();
              }
          }
-
+         //inserts the data into a binary search tree
          TreeNode root = null;
          for(int key : data) {
              root = insert(root, key);
          }
+         //find the kth order statisitcs and then prints them out 
          int[] answers = new int[position.size()];
          int i = 0;
          for(int pos : position) {
             answers[i] = kStatistic(root, pos);
             i++;
          }
-      //   System.out.println(position.get(0));
          for(int j=0 ; j< i; j++) {
              System.out.println("" + answers[j]);
             
