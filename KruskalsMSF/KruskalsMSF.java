@@ -123,7 +123,7 @@ public class KruskalsMSF {
             //the number of vertices 
             int numVertices = graphRead.nextInt();
             //intializing a union find data structure with n number of vertices 
-            UnionFind unionFind = new UnionFind(n);
+            UnionFind unionFind = new UnionFind(numVertices);
             //make n number of vertices 
             for(int i = 0; i < numVertices; i++) {
                 unionFind.makeSet(i);
