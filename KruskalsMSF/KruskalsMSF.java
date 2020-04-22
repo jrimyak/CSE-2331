@@ -1,10 +1,12 @@
-//package KruskalsMSF;
 
 import java.util.Comparator;
 import java.io.File;
 import java.util.Scanner;
 import java.util.PriorityQueue;
-
+/**
+ * @author Jake Imyak
+ * Implementation of Kruskals Algorithm for CSE 2331
+ */
 public class KruskalsMSF {
 
     /**
@@ -119,17 +121,17 @@ public class KruskalsMSF {
             }
 
             //the number of vertices 
-            int n = graphRead.nextInt();
+            int numVertices = graphRead.nextInt();
             //intializing a union find data structure with n number of vertices 
             UnionFind unionFind = new UnionFind(n);
             //make n number of vertices 
-            for(int i = 0; i < n; i++) {
+            for(int i = 0; i < numVertices; i++) {
                 unionFind.makeSet(i);
             }
             //initaliz ethe comparator to compare the edge weights 
             Comparator<String> weightCompare = new EdgeWeightComparator();
             //creating a prioritty queue to hold the min values 
-            PriorityQueue<String> min = new PriorityQueue<>(numEdges, weightCompare);
+            PriorityQueue<String> minQueue = new PriorityQueue<>(numEdges, weightCompare);
 
             //Scanner working correctly now since we went from int to string to read input
             graphRead.nextLine();
@@ -137,14 +139,14 @@ public class KruskalsMSF {
             //adding all of the edges into the min queue
             while(graphRead.hasNext()) {
                 String edge = graphRead.nextLine();
-                min.add(edge);
+                minQueue.add(edge);
             }
 
             //add edges into minimum spanning tree using kruskals algorithm until MST has n-1 edges
-            int m = 0;
-            while(!min.isEmpty() && m < n-1) {
+            int edgeCtr = 0;
+            while(!minQueue.isEmpty() && edgeCtr < numVertices-1) {
                 //remove the edge 
-                String edge = min.remove();
+                String edge = minQueue.remove();
                 //find the pos in the string of the comma and colon
                 int commaPos = edge.indexOf(',');
                 int colonPos = edge.indexOf(':');
@@ -158,7 +160,7 @@ public class KruskalsMSF {
                     System.out.println(edge);
                     unionFind.unionByHeight(source, destination);
                     //increment the number in the MST
-                    m++;
+                    edgeCtr++;
                 }
             }
             //close the scanners
